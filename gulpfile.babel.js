@@ -7,69 +7,108 @@ import sourcemaps from 'gulp-sourcemaps';
 import uglify from 'gulp-uglify';
 import stringify from 'stringify';
 import browserSync from 'browser-sync';
+import gutil from 'gulp-util';
 import runSequence from 'run-sequence';
 import babelConfig from './babelrc.json';
 
 gulp.task('build:js', () =>
-	browserify('app/app.js', { debug: true })
+	browserify(['examples/request/app.js'], { debug: true })
 	.transform(stringify(['.html']))
 	.transform(babelify, babelConfig)
 	.bundle()
+	.on('error', function (err) { gutil.log(err.toString()); this.emit('end'); })
 	.pipe(source('app.js'))
 	.pipe(buffer())
 	.pipe(sourcemaps.init({ loadMaps: true }))
     .pipe(sourcemaps.write('.'))
-	.pipe(gulp.dest('dist/'))
+	.pipe(gulp.dest('dist/request'))
 );
 
 gulp.task('build:js-mock', () =>
-	browserify('app-mock/app.js', { debug: true })
+	browserify(['examples/mock/app.js'], { debug: true })
+	.transform(stringify(['.html']))
+	.transform(babelify, babelConfig)
+	.bundle()
+	.on('error', function (err) { gutil.log(err.toString()); this.emit('end'); })
+	.pipe(source('app.js'))
+	.pipe(buffer())
+	.pipe(sourcemaps.init({ loadMaps: true }))
+    .pipe(sourcemaps.write('.'))
+	.pipe(gulp.dest('dist/mock'))
+);
+
+gulp.task('build:js-min', () =>
+	browserify(['examples/request/app.js'])
 	.transform(stringify(['.html']))
 	.transform(babelify, babelConfig)
 	.bundle()
 	.pipe(source('app.js'))
 	.pipe(buffer())
-	.pipe(sourcemaps.init({ loadMaps: true }))
-    .pipe(sourcemaps.write('.'))
-	.pipe(gulp.dest('dist/'))
+	.pipe(uglify())
+	.pipe(gulp.dest('docs/'))
+);
+
+gulp.task('build:js-build', () =>
+	browserify(['src/table.js'])
+	.transform(stringify(['.html']))
+	.transform(babelify, babelConfig)
+	.bundle()
+	.pipe(source('pyrite-table.min.js'))
+	.pipe(buffer())
+	.pipe(uglify())
+	.pipe(gulp.dest('build/'))
 );
 
 gulp.task('copy:html', () => 
-	gulp.src(['app/index.html'])
-    .pipe(gulp.dest('dist/'))
+	gulp.src(['examples/request/index.html'])
+    .pipe(gulp.dest('dist/request'))
 );
 
 gulp.task('copy:html-mock', () => 
-	gulp.src(['app-mock/index.html'])
-    .pipe(gulp.dest('dist/'))
+	gulp.src(['examples/mock/index.html'])
+    .pipe(gulp.dest('dist/mock'))
 );
 
-gulp.task('copy:json', () => 
-	gulp.src(['mocks/**.*'])
-    .pipe(gulp.dest('dist/'))
+gulp.task('copy:html-docs', () => 
+	gulp.src(['examples/request/index.html'])
+    .pipe(gulp.dest('docs/'))
 );
 
 gulp.task('serve',() => {
 	runSequence('build:js', 'copy:html', 'browser-sync', () => {
-		gulp.watch(['app/**/*.js', 'app/**/*.html'], ['build:js', 'copy:html', browserSync.reload]);
+		gulp.watch(['examples/request/**.*', 'src/**.*'], ['build:js', 'copy:html', browserSync.reload]);
 	});
 });
 
 gulp.task('serve-mock',() => {
-	runSequence('build:js-mock', 'copy:html-mock', 'copy:json', 'browser-sync', () => {
-		gulp.watch(['app-mock/**/*.js', 'app-mock/**/*.json', 'app-mock/**/*.html'], ['build:js-mock', 'copy:html-mock','copy:json', browserSync.reload]);
+	runSequence('build:js-mock', 'copy:html-mock', 'browser-sync-mock', () => {
+		gulp.watch(['examples/mock/**.*', 'src/**.*'], ['build:js-mock', 'copy:html-mock', browserSync.reload]);
 	});
+});
+
+gulp.task('docs',() => {
+	runSequence('build:js-min', 'copy:html-docs');
 });
 
 gulp.task('browser-sync', () => 
   browserSync({
     server: {
-      baseDir: './dist'
+      baseDir: './dist/request'
+    }
+  })
+);
+
+gulp.task('browser-sync-mock', () => 
+  browserSync({
+    server: {
+      baseDir: './dist/mock'
     }
   })
 );
 
 gulp.task('default', ['serve']);
+
+gulp.task('build', ['build:js-build']);
 
 gulp.task('mock', ['serve-mock']);
 
