@@ -1,0 +1,13 @@
+mixin pyrite-table (options)
+	.table-responsive
+		table.table.table-striped.table-bordered(id=options.table)
+	p.pull-right
+		span Showing
+		|
+		strong(id=options.filter) 0
+		|
+		span of
+		|
+		strong(id=options.total) 0
+		|
+		span results

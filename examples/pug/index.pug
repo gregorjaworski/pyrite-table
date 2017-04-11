@@ -1,0 +1,74 @@
+include ./templates/table.pug
+include ./templates/filter.pug
+include ./templates/search.pug
+
+doctype html
+html
+	head
+		title Table Pug Example
+
+		meta(charset='utf-8')
+		meta(name='viewport', content='width=device-width, initial-scale=1')
+
+		link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
+		link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
+
+		script(src='app.js')
+	body
+		.container
+			h2 Table Example
+
+			.form-group
+				.row
+					.col-xs-12.col-sm-7.col-md-6.col-lg-5
+						p Simple search:
+
+						+pyrite-table-search({
+							input: 'input-search',
+							button: 'button-search',
+							placeholder: 'Search...',
+							buttonText: 'Search'
+						})
+
+			.form-group
+				p Advanced search:
+
+				.row
+					.col-xs-12.col-sm-6.col-md-3
+						+pyrite-table-filter({
+							placeholder: 'Username...',
+							input: 'input-username',
+							button: 'button-username'
+						})
+
+					.col-xs-12.visible-xs.form-group
+
+					.col-xs-12.col-sm-6.col-md-3
+						+pyrite-table-filter({
+							placeholder: 'Name...',
+							input: 'input-name',
+							button: 'button-name'
+						})
+
+					.col-xs-12.visible-xs.visible-sm.form-group
+
+					.col-xs-12.col-sm-6.col-md-3
+						+pyrite-table-filter({
+							placeholder: 'Last Name...',
+							input: 'input-lastname',
+							button: 'button-lastname'
+						})
+					.col-xs-12.visible-xs.form-group
+
+					.col-xs-12.col-sm-6.col-md-3
+						+pyrite-table-filter({
+							placeholder: 'Street...',
+							input: 'input-street',
+							button: 'button-street'
+						})
+
+			+pyrite-table({
+				table: 'table-example',
+				total: 'total-text',
+				filter: 'filter-text'
+			})

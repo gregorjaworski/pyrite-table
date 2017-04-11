@@ -1,0 +1,35 @@
+{
+	"table": "table-example",
+
+	"fields": [{
+		"title": "Username",
+		"field": "login.username",
+		"input": "input-username",
+		"button": "button-username"
+	}, {
+		"title": "Name",
+		"field": "name.first",
+		"input": "input-name",
+		"button": "button-name"
+	}, {
+		"title": "Last Name",
+		"field": "name.last",
+		"input": "input-lastname",
+		"button": "button-lastname"
+	}, {
+		"title": "Street",
+		"field": "location.street",
+		"input": "input-street",
+		"button": "button-street"
+	}],
+
+	"search": {
+		"input": "input-search",
+		"button": "button-search"
+	},
+
+	"text": {
+		"total": "total-text",
+		"filter": "filter-text"
+	}
+}

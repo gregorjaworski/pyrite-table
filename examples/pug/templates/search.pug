@@ -1,0 +1,9 @@
+mixin pyrite-table-search (options)
+	.input-group
+		input.form-control(id=options.input, type='text', placeholder=options.placeholder)
+		|
+		span.input-group-btn
+			button.btn.btn-primary(id=options.button)
+				span #{options.buttonText}
+				|
+				i.fa.fa-search

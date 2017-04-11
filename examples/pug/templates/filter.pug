@@ -1,0 +1,7 @@
+mixin pyrite-table-filter (options)
+	.input-group
+		input.form-control(id=options.input, type='text', placeholder=options.placeholder)
+		|
+		span.input-group-btn
+			button.btn.btn-default(id=options.button)
+				i.fa.fa-filter

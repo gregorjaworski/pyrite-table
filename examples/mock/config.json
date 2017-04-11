@@ -1,0 +1,39 @@
+{
+	"table": "table-example",
+
+	"fields": [{
+		"title": "Name",
+		"field": "name",
+		"input": "input-name",
+		"button": "button-name",
+		"autorefresh": 500
+	}, {
+		"title": "Last Name",
+		"field": "lastname",
+		"input": "input-lastname",
+		"button": "button-lastname",
+		"autorefresh": 500
+	}, {
+		"title": "Age",
+		"field": "age",
+		"input": "input-age",
+		"button": "button-age",
+		"autorefresh": 500
+	}, {
+		"title": "City",
+		"field": "city",
+		"input": "input-city",
+		"button": "button-city",
+		"autorefresh": 500
+	}],
+
+	"search": {
+		"input": "input-search",
+		"button": "button-search"
+	},
+
+	"text": {
+		"total": "total-text",
+		"filter": "filter-text"
+	}
+}
